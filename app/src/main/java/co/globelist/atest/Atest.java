@@ -1,17 +1,17 @@
 package co.globelist.atest;
 
-import android.annotation.SuppressLint;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.os.Handler;
-import android.view.MotionEvent;
+import android.util.Log;
 import android.view.View;
-import android.view.Window;
 
-/**
- * An example full-screen activity that shows and hides the system UI (i.e.
- * status bar and navigation/system bar) with user interaction.
- */
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.Request;
+import com.android.volley.toolbox.Volley;
+
+import java.util.HashMap;
+import java.util.Map;
+
 public class Atest extends AppCompatActivity {
     private View mContentView;
 
@@ -28,6 +28,32 @@ public class Atest extends AppCompatActivity {
                 | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
                 | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
                 | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
+
+        class AuthCallback extends Callback {
+            @Override
+            public void success() {
+                super.success();
+                Log.d("AuthCallback", "my success");
+            }
+
+            @Override
+            public void error(String error) {
+                super.error(error);
+                Log.d("AuthCallback", "my error: "+error);
+            }
+        }
+
+        RestService rest = new RestService();
+
+        Map<String, String> params = new HashMap<>();
+        params.put("email", "test@example.com");
+        params.put("password", "test");
+        StringRequest postRequest = rest.getStringRequest(Request.Method.POST, "auth", params, new AuthCallback());
+        Volley.newRequestQueue(this).add(postRequest);
+
     }
+
+
+
 
 }
