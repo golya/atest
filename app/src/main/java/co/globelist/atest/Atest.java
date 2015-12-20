@@ -9,6 +9,11 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.Request;
 import com.android.volley.toolbox.Volley;
 
+import java.net.CookieHandler;
+import java.net.CookieManager;
+
+import java.net.CookieStore;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -29,6 +34,10 @@ public class Atest extends AppCompatActivity {
                 | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
                 | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
 
+
+        final CookieManager manager = new CookieManager();
+        CookieHandler.setDefault(manager);
+        final RestService rest = new RestService();
         class AuthCallback extends Callback {
             @Override
             public void success() {
