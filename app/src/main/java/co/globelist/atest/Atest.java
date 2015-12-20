@@ -9,6 +9,8 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.Request;
 import com.android.volley.toolbox.Volley;
 
+import org.json.JSONObject;
+
 import java.net.CookieHandler;
 import java.net.CookieManager;
 
@@ -38,21 +40,44 @@ public class Atest extends AppCompatActivity {
         final CookieManager manager = new CookieManager();
         CookieHandler.setDefault(manager);
         final RestService rest = new RestService();
+
+        class UsersCallback extends Callback {
+            @Override
+            public void success(JSONObject jsonResponse) {
+                super.success(jsonResponse);
+                Log.d("UsersCallback", "my success");
+                CookieStore store = manager.getCookieStore();
+                Log.d("UsersCallback", "cookies: " + store.getCookies());
+            }
+
+            @Override
+            public void error(String error) {
+                super.error(error);
+                Log.d("UsersCallback", "my error: " + error);
+                CookieStore store = manager.getCookieStore();
+                Log.d("UsersCallback", "cookies: " + store.getCookies());
+            }
+        }
+
         class AuthCallback extends Callback {
             @Override
-            public void success() {
-                super.success();
+            public void success(JSONObject jsonResponse) {
+                super.success(jsonResponse);
                 Log.d("AuthCallback", "my success");
             }
 
             @Override
             public void error(String error) {
                 super.error(error);
-                Log.d("AuthCallback", "my error: "+error);
+                Log.d("AuthCallback", "my error: " + error);
+                CookieStore store = manager.getCookieStore();
+                Log.d("AuthCallback", "cookies: " + store.getCookies());
+
+
+                StringRequest getRequest = rest.getStringRequest(Request.Method.GET, "users/me", Collections.<String,String>emptyMap(), new UsersCallback());
+                Volley.newRequestQueue(Atest.this).add(getRequest);
             }
         }
-
-        RestService rest = new RestService();
 
         Map<String, String> params = new HashMap<>();
         params.put("email", "test@example.com");
@@ -61,8 +86,5 @@ public class Atest extends AppCompatActivity {
         Volley.newRequestQueue(this).add(postRequest);
 
     }
-
-
-
 
 }

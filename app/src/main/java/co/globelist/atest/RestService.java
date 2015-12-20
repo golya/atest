@@ -13,26 +13,22 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
-import java.util.HashMap;
 import java.util.Map;
 
 
 public class RestService {
-    private String host = "localhost";
-    public StringRequest getStringRequest(Integer method, String path, final Map<String, String> params, final Callback callback) {
-        String url = host + path;
+    private String host = "http://192.168.1.2:3000/";
+    public StringRequest getStringRequest(final Integer method, String path, final Map<String, String> params, final Callback callback) {
+        final String url = host + path;
 
         Response.Listener<String> response = new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
+                Log.d("RestService", "The result is: " + response);
                 try {
-                    JSONObject jsonResponse = new JSONObject(response).getJSONObject("form");
-                    String site = jsonResponse.getString("site"),
-                            network = jsonResponse.getString("network");
-                    callback.success();
+                    JSONObject jsonResponse = new JSONObject(response);
+                    callback.success(jsonResponse);
                 } catch (JSONException e) {
-                    Log.d("RestService", "The result is: " + response);
-                    e.printStackTrace();
                     callback.error("Format error!");
                 }
             }
@@ -49,7 +45,8 @@ public class RestService {
             @Override
             protected Response<String> parseNetworkResponse(NetworkResponse response) {
                 String parsed;
-                Log.d("RestService", "Response headers: " + response.headers);
+                Log.d("RestService", "[" + method + "," + url + "] Response code: " + response.statusCode);
+                Log.d("RestService", "[" + method + "," + url + "] Response headers: " + response.headers);
                 try {
                     parsed = new String(response.data, HttpHeaderParser.parseCharset(response.headers));
                 } catch (UnsupportedEncodingException e) {
