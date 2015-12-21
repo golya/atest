@@ -5,6 +5,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.Request;
@@ -16,7 +18,6 @@ import java.net.CookieHandler;
 import java.net.CookieManager;
 
 import java.net.CookieStore;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -62,11 +63,19 @@ public class Atest extends AppCompatActivity {
             }
         }
 
-        Map<String, String> params = new HashMap<>();
-        params.put("email", "test@example.com");
-        params.put("password", "test");
-        StringRequest postRequest = rest.getStringRequest(Request.Method.POST, "auth", params, new AuthCallback());
-        Volley.newRequestQueue(this).add(postRequest);
+        Button clickButton = (Button) findViewById(R.id.login);
+        clickButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                EditText fEmail = (EditText)findViewById(R.id.email);
+                EditText fPass = (EditText)findViewById(R.id.password);
+                Map<String, String> params = new HashMap<>();
+                params.put("email", fEmail.getText().toString());
+                params.put("password", fPass.getText().toString());
+                StringRequest postRequest = rest.getStringRequest(Request.Method.POST, "auth", params, new AuthCallback());
+                Volley.newRequestQueue(Atest.this).add(postRequest);
+            }
+        });
 
     }
 
