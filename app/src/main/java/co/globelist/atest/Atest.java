@@ -1,5 +1,6 @@
 package co.globelist.atest;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -41,24 +42,6 @@ public class Atest extends AppCompatActivity {
         CookieHandler.setDefault(manager);
         final RestService rest = new RestService();
 
-        class UsersCallback extends Callback {
-            @Override
-            public void success(JSONObject jsonResponse) {
-                super.success(jsonResponse);
-                Log.d("UsersCallback", "my success");
-                CookieStore store = manager.getCookieStore();
-                Log.d("UsersCallback", "cookies: " + store.getCookies());
-            }
-
-            @Override
-            public void error(String error) {
-                super.error(error);
-                Log.d("UsersCallback", "my error: " + error);
-                CookieStore store = manager.getCookieStore();
-                Log.d("UsersCallback", "cookies: " + store.getCookies());
-            }
-        }
-
         class AuthCallback extends Callback {
             @Override
             public void success(JSONObject jsonResponse) {
@@ -73,9 +56,9 @@ public class Atest extends AppCompatActivity {
                 CookieStore store = manager.getCookieStore();
                 Log.d("AuthCallback", "cookies: " + store.getCookies());
 
+                Intent i = new Intent(getApplicationContext(), Welcome.class);
+                startActivity(i);
 
-                StringRequest getRequest = rest.getStringRequest(Request.Method.GET, "users/me", Collections.<String,String>emptyMap(), new UsersCallback());
-                Volley.newRequestQueue(Atest.this).add(getRequest);
             }
         }
 
