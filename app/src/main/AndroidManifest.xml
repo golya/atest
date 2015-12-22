@@ -12,7 +12,7 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme.NoActionBar">
         <activity
             android:name=".Atest"
             android:label="@string/app_name">
@@ -23,11 +23,21 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="co.globelist.atest.Welcome"
-            android:parentActivityName="co.globelist.atest.Atest" >
+            android:name=".Welcome"
+            android:parentActivityName=".Atest"
+            android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="co.globelist.atest.Welcome" />
+        </activity>
+        <activity
+            android:name=".Profile"
+            android:label="@string/title_activity_profile"
+            android:parentActivityName=".Atest"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="co.globelist.atest.Atest" />
         </activity>
     </application>
 

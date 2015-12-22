@@ -57,7 +57,7 @@ public class Atest extends AppCompatActivity {
                 CookieStore store = manager.getCookieStore();
                 Log.d("AuthCallback", "cookies: " + store.getCookies());
 
-                Intent i = new Intent(getApplicationContext(), Welcome.class);
+                Intent i = new Intent(getApplicationContext(), Profile.class);
                 startActivity(i);
 
             }
