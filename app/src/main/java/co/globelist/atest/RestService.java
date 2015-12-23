@@ -43,18 +43,6 @@ public class RestService {
 
         return new StringRequest(method, url, response, error) {
             @Override
-            protected Response<String> parseNetworkResponse(NetworkResponse response) {
-                String parsed;
-                Log.d("RestService", "[" + method + "," + url + "] Response code: " + response.statusCode);
-                Log.d("RestService", "[" + method + "," + url + "] Response headers: " + response.headers);
-                try {
-                    parsed = new String(response.data, HttpHeaderParser.parseCharset(response.headers));
-                } catch (UnsupportedEncodingException e) {
-                    parsed = new String(response.data);
-                }
-                return Response.success(parsed, HttpHeaderParser.parseCacheHeaders(response));
-            }
-            @Override
             protected Map<String, String> getParams()
             {
                 return params;
