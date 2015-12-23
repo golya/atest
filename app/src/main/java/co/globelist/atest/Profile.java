@@ -7,11 +7,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 
 import com.android.volley.Request;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.Collections;
@@ -42,6 +44,23 @@ public class Profile extends AppCompatActivity {
             @Override
             public void success(JSONObject jsonResponse) {
                 super.success(jsonResponse);
+                try {
+                    String name = jsonResponse.getString("name");
+                    EditText fname = (EditText)findViewById(R.id.name);
+                    fname.setText(name);
+
+                    String username = jsonResponse.getString("username");
+                    EditText fusername = (EditText)findViewById(R.id.username);
+                    fusername.setText(username);
+
+                    String country = jsonResponse.getString("country");
+                    EditText fcountry = (EditText)findViewById(R.id.country);
+                    fcountry.setText(country);
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
                 Log.d("UsersCallback", "my success" + jsonResponse);
             }
 
