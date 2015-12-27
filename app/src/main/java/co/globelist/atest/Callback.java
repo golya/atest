@@ -12,6 +12,4 @@ public class Callback {
     public void error(String error) {
         Log.d("Callback", "Error is called: " + error);
     }
-
-
 }

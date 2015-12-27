@@ -2,17 +2,13 @@ package co.globelist.atest;
 
 import android.util.Log;
 
-import com.android.volley.NetworkResponse;
-
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.StringRequest;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.UnsupportedEncodingException;
 import java.util.Map;
 
 

@@ -1,6 +1,7 @@
 package co.globelist.atest;
 
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -28,19 +29,13 @@ public class Atest extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_atest);
+        setUpUI();
+        setUpLogin();
+    }
 
-        mContentView = findViewById(R.id.fullscreen_content);
-        mContentView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE
-                | View.SYSTEM_UI_FLAG_FULLSCREEN
-                | View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
-                | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
+    private void setUpLogin() {
 
-
-        final CookieManager manager = new CookieManager();
-        CookieHandler.setDefault(manager);
+        final CookieManager manager = setUpCookieManager();
         final RestService rest = new RestService();
 
         class AuthCallback extends Callback {
@@ -53,13 +48,10 @@ public class Atest extends AppCompatActivity {
             @Override
             public void error(String error) {
                 super.error(error);
-                Log.d("AuthCallback", "my error: " + error);
                 CookieStore store = manager.getCookieStore();
-                Log.d("AuthCallback", "cookies: " + store.getCookies());
 
                 Intent i = new Intent(getApplicationContext(), Profile.class);
                 startActivity(i);
-
             }
         }
 
@@ -76,7 +68,25 @@ public class Atest extends AppCompatActivity {
                 Volley.newRequestQueue(Atest.this).add(postRequest);
             }
         });
+    }
 
+    @NonNull
+    private CookieManager setUpCookieManager() {
+        final CookieManager manager = new CookieManager();
+        CookieHandler.setDefault(manager);
+        return manager;
+    }
+
+    private void setUpUI() {
+        setContentView(R.layout.activity_atest);
+
+        mContentView = findViewById(R.id.fullscreen_content);
+        mContentView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE
+                | View.SYSTEM_UI_FLAG_FULLSCREEN
+                | View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+                | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
     }
 
 }
