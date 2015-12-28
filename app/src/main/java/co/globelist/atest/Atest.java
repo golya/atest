@@ -1,5 +1,8 @@
 package co.globelist.atest;
 
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -42,6 +45,7 @@ public class Atest extends AppCompatActivity {
             @Override
             public void success(JSONObject jsonResponse) {
                 super.success(jsonResponse);
+
                 Log.d("AuthCallback", "my success");
             }
 
@@ -49,6 +53,24 @@ public class Atest extends AppCompatActivity {
             public void error(String error) {
                 super.error(error);
                 CookieStore store = manager.getCookieStore();
+
+                Intent intent = new Intent(Atest.this, NotificationView.class);
+                PendingIntent pIntent = PendingIntent.getActivity(Atest.this, (int) System.currentTimeMillis(), intent, 0);
+                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN) {
+
+
+                    NotificationManager notificationManager = (NotificationManager)
+                            getSystemService(NOTIFICATION_SERVICE);
+
+                    Notification n  = new Notification.Builder(Atest.this)
+                            .setContentTitle("You tried to log in")
+                            .setContentText("Login attempt")
+                            .setSmallIcon(R.drawable.logo_title2)
+                            .setContentIntent(pIntent)
+                            .setAutoCancel(true)
+                            .build();
+                    notificationManager.notify(0, n);
+                }
 
                 Intent i = new Intent(getApplicationContext(), Profile.class);
                 startActivity(i);
