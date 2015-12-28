@@ -57,7 +57,7 @@
         android:layout_width="274dp"
         android:layout_height="274dp"
         android:layout_gravity="center_horizontal|top"
-        android:src="@drawable/logo_title"
+        android:src="@drawable/logo_title2"
         android:layout_marginTop="20dp" />
 
     <!-- This FrameLayout insets its children based on system windows using
